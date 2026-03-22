@@ -596,12 +596,21 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
                 <!-- Left: Dynamic Image Display -->
-                <div
+                <div id="service-image-container"
                     class="reveal stagger-1 relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-xl bg-dicos-dark/5 group">
-                    <img id="service-image-display" src="./servicio-1.jpg" alt="Servicio Activo"
-                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    <img src="./servicio-1.jpg" data-id="./servicio-1.jpg" alt="Servicio 1"
+                        class="service-img absolute inset-0 w-full h-full object-cover transition-all duration-[800ms] opacity-100 z-10 group-hover:scale-105">
+                    <img src="./servicio-2.jpg" data-id="./servicio-2.jpg" alt="Servicio 2"
+                        class="service-img absolute inset-0 w-full h-full object-cover transition-all duration-[800ms] opacity-0 z-0 group-hover:scale-105">
+                    <img src="./servicio-3.jpg" data-id="./servicio-3.jpg" alt="Servicio 3"
+                        class="service-img absolute inset-0 w-full h-full object-cover transition-all duration-[800ms] opacity-0 z-0 group-hover:scale-105">
+                    <img src="./servicio-4.jpg" data-id="./servicio-4.jpg" alt="Servicio 4"
+                        class="service-img absolute inset-0 w-full h-full object-cover transition-all duration-[800ms] opacity-0 z-0 group-hover:scale-105">
+                    <img src="./servicio-5.jpg" data-id="./servicio-5.jpg" alt="Servicio 5"
+                        class="service-img absolute inset-0 w-full h-full object-cover transition-all duration-[800ms] opacity-0 z-0 group-hover:scale-105">
+                    
                     <!-- Subtle overlay -->
-                    <div class="absolute inset-0 bg-dicos-dark/5 mix-blend-overlay"></div>
+                    <div class="absolute inset-0 bg-dicos-dark/5 mix-blend-overlay pointer-events-none z-20"></div>
                 </div>
 
                 <!-- Right: Services Accordion -->
@@ -1190,47 +1199,39 @@
                 });
             });
 
-            // 5. Interactive Services Accordion
+            // 5. Interactive Services Accordion (Preloaded Stack implementation)
             const serviceItems = document.querySelectorAll('.service-item');
-            const serviceImageDisplay = document.getElementById('service-image-display');
-            let imagePulseTimeout;
+            const serviceImages = document.querySelectorAll('.service-img');
             let activationTimeout;
-            let currentImageSrc = serviceImageDisplay ? serviceImageDisplay.getAttribute('src') : '';
 
             serviceItems.forEach(item => {
                 item.addEventListener('mouseenter', () => {
                     const targetImage = item.getAttribute('data-image');
                     
-                    // Kill any pending activation OR image swap from previous hovers IMMEDIATELY
+                    // Cancel any pending activations if the user is scrolling fast
                     clearTimeout(activationTimeout);
-                    clearTimeout(imagePulseTimeout);
 
                     activationTimeout = setTimeout(() => {
-                        // 1. Update active states for the text/accordion
+                        // 1. Update text accordion actve state
                         serviceItems.forEach(el => el.classList.remove('active'));
                         item.classList.add('active');
 
-                        // 2. Handle image swap if different
-                        if (currentImageSrc !== targetImage) {
-                            currentImageSrc = targetImage;
-                            
-                            // Fade out
-                            serviceImageDisplay.style.opacity = '0';
-                            
-                            imagePulseTimeout = setTimeout(() => {
-                                serviceImageDisplay.src = targetImage;
-                                // Fade in
-                                serviceImageDisplay.style.opacity = '1';
-                            }, 300);
-                        } else {
-                            // Ensure it's visible if we somehow were in the middle of a fade
-                            serviceImageDisplay.style.opacity = '1';
-                        }
-                    }, 150); // Debounce to allow "skating" over items
+                        // 2. Crossfade images reliably via CSS opacities
+                        serviceImages.forEach(img => {
+                            if (img.getAttribute('data-id') === targetImage) {
+                                img.classList.remove('opacity-0');
+                                img.classList.add('opacity-100');
+                                img.style.zIndex = '10';
+                            } else {
+                                img.classList.remove('opacity-100');
+                                img.classList.add('opacity-0');
+                                img.style.zIndex = '0';
+                            }
+                        });
+                    }, 120); // Quick debounce for smooth interaction over list
                 });
 
                 item.addEventListener('mouseleave', () => {
-                    // If we leave before the activation happens, cancel it
                     clearTimeout(activationTimeout);
                 });
             });
