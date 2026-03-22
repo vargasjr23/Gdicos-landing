@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grupo Dicos | Ingeniería y Energía que Impulsa el Futuro</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Inter+Tight:wght@500;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind CSS (CDN for layout, extended in script) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dicos: {
+                            light: '#F8F9FA',
+                            dark: '#121212',
+                            yellow: '#F2A900', /* Amarillo Industrial Dicos */
+                            gray: '#8a8a8a',
+                            border: 'rgba(18, 18, 18, 0.08)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Inter Tight', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS (Animations, Behaviors, Micro-interactions) -->
+    <style>
+        /* Base Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --dicos-yellow: #F2A900;
+            --dicos-dark: #121212;
+            --dicos-light: #F8F9FA;
+            --dicos-gray: #5A5A5A; /* Darkened for better contrast #8a8a8a -> #5a5a5a */
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body {
+            background-color: var(--dicos-light);
+            color: var(--dicos-dark);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Noise Overlay for Cinematic Texture */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.025; /* Reduced slightly for cleaner look */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Engineering Grid Background */
+        .bg-grid {
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            background-size: 60px 60px;
+            background-image: linear-gradient(to right, rgba(18, 18, 18, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(18, 18, 18, 0.03) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+        }
+
+        /* Abstract Energy Gradient */
+        .gradient-blur {
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(242, 169, 0, 0.08) 0%, rgba(248, 249, 250, 0) 60%);
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            top: -200px;
+            right: -200px;
+            animation: pulse-energy 10s infinite alternate ease-in-out;
+        }
+
+        @keyframes pulse-energy {
+            0% {
+                transform: scale(1) translate(0, 0);
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: scale(1.15) translate(-40px, 40px);
+                opacity: 1;
+            }
+        }
+
+        /* SCROLL REVEALS */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            filter: blur(10px);
+            transition: opacity 1.5s var(--ease-out-expo), transform 1.5s var(--ease-out-expo), filter 1.5s var(--ease-out-expo);
+            will-change: opacity, transform, filter;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0px);
+        }
+
+        /* Staggered Delays for Grid/Lists */
+        .stagger-1 {
+            transition-delay: 200ms;
+        }
+
+        .stagger-2 {
+            transition-delay: 400ms;
+        }
+
+        .stagger-3 {
+            transition-delay: 600ms;
+        }
+
+        .stagger-4 {
+            transition-delay: 800ms;
+        }
+
+        .stagger-5 {
+            transition-delay: 1000ms;
+        }
+
+        /* Custom Hover Fill Button (Primary) */
+        .btn-dicos {
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            border: 1px solid var(--dicos-yellow);
+            color: var(--dicos-dark);
+            background: transparent;
+            padding: 1rem 2rem;
+            border-radius: 9999px;
+            font-weight: 500;
+            transition: color 0.4s ease, border-color 0.4s ease;
+            z-index: 1;
+            text-decoration: none;
+        }
+
+        .btn-dicos::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 101%;
+            height: 101%;
+            background: var(--dicos-yellow);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.6s var(--ease-out-expo);
+            z-index: -1;
+            border-radius: 9999px;
+        }
+
+        .btn-dicos:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .btn-dicos:hover {
+            color: var(--dicos-dark);
+            /* Ensure contrast on yellow fill */
+        }
+
+        /* Secondary Button (Dark bg) */
+        .btn-dicos-dark {
+            border-color: var(--dicos-dark);
+            color: var(--dicos-light);
+            background: var(--dicos-dark);
+        }
+
+        .btn-dicos-dark::before {
+            background: var(--dicos-dark);
+        }
+
+        .btn-dicos-dark:hover {
+            color: var(--dicos-light);
+            border-color: var(--dicos-dark);
+        }
+
+        .btn-dicos-dark:hover::before {
+            transform: scaleX(0);
+            /* Reveal underlying background if modified */
+        }
+
+        /* Button Arrow Micro-interaction */
+        .btn-icon {
+            transition: transform 0.4s var(--ease-out-expo);
+        }
+
+        .btn-dicos:hover .btn-icon {
+            transform: translateX(4px);
+        }
+
+        /* Service Cards Micro-UI */
+        .service-card {
+            background-color: #ffffff;
+            border: 1px solid var(--dicos-border);
+            border-radius: 1.5rem;
+            transition: transform 0.6s var(--ease-out-expo),
+                box-shadow 0.6s var(--ease-out-expo),
+                border-color 0.6s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.03);
+            border-color: rgba(242, 169, 0, 0.5);
+            /* Yellow glow border */
+        }
+
+        .service-icon-wrapper {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 1rem;
+            background-color: var(--dicos-light);
+            color: var(--dicos-dark);
+            transition: color 0.4s ease, background-color 0.4s ease;
+        }
+
+        .service-card:hover .service-icon-wrapper {
+            color: var(--dicos-yellow);
+            background-color: var(--dicos-dark);
+        }
+
+        /* Infinte Marquee (Left to Right) */
+        @keyframes marquee-ltr {
+            0% {
+                transform: translateX(-50%);
+            }
+
+            100% {
+                transform: translateX(0%);
+            }
+        }
+
+        .animate-marquee-ltr {
+            display: flex;
+            width: fit-content;
+            animation: marquee-ltr 30s linear infinite;
+        }
+
+        .animate-marquee-ltr:hover {
+            animation-play-state: paused;
+        }
+
+        /* Interactive Services Layout */
+        .service-accordion-title {
+            transition: font-size 0.5s var(--ease-out-expo), color 0.3s ease, font-weight 0.4s ease;
+            cursor: pointer;
+        }
+
+        .service-accordion-content {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.8s var(--ease-out-expo);
+        }
+
+        .service-item.active .service-accordion-content {
+            grid-template-rows: 1fr;
+        }
+
+        .service-inner {
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 0.6s ease 0s, transform 0.7s var(--ease-out-expo) 0s;
+        }
+
+        .service-item.active .service-inner {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.1s;
+        }
+
+        #service-image-display {
+            transition: opacity 0.4s ease;
+        }
+
+        /* Magnetic Wrapper */
+        .magnetic-wrap {
+            display: inline-block;
+        }
+
+        .magnetic-content {
+            display: inline-block;
+            transition: transform 0.1s linear;
+            /* Smooth mouse tracking */
+        }
+
+        /* Accessibility: Focus Rings & Reduced Motion */
+        *:focus-visible {
+            outline: none !important;
+            box-shadow: 0 0 0 2px var(--dicos-light), 0 0 0 4px var(--dicos-yellow) !important;
+            border-radius: 4px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            .parallax { transform: none !important; }
+            .animate-marquee-ltr { animation: none !important; transform: none !important; }
+        }
+    </style>
+</head>
+
+<body class="selection:bg-dicos-yellow selection:text-dicos-dark">
+
+    <!-- Global Progress Bar -->
+    <div id="scroll-progress-bar" class="fixed top-0 left-0 w-full h-1 bg-dicos-yellow z-50 origin-left scale-x-0"
+        style="transition: transform 0.1s linear;"></div>
+
+    <!-- Global Noise Texture -->
+    <div class="noise-overlay"></div>
+
+    <!-- NAVBAR (Translucent & Fixed) -->
+    <nav class="fixed w-full top-0 z-40 transition-all duration-300 bg-transparent border-b border-transparent"
+        id="navbar">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 cursor-pointer">
+                    <a href="#" id="nav-logo"
+                        class="flex items-center transition-opacity duration-300 hover:opacity-80">
+                        <!-- El filtro brightness-0 invert hace que el logo se vea completamente blanco por defecto -->
+                        <img src="./logo.png" alt="Dicos Ingeniería Logo" id="nav-logo-img"
+                            class="h-12 w-auto object-contain brightness-0 invert transition-all duration-300">
+                    </a>
+                </div>
+                <!-- Links -->
+                <div class="hidden md:block">
+                    <div id="nav-links"
+                        class="ml-10 flex items-baseline space-x-8 text-white transition-colors duration-300">
+                        <a href="#servicios"
+                            class="text-sm font-medium hover:text-dicos-yellow transition-colors">Servicios</a>
+                        <a href="#clientes"
+                            class="text-sm font-medium hover:text-dicos-yellow transition-colors">Nuestros Clientes</a>
+                        <a href="#experiencia"
+                            class="text-sm font-medium hover:text-dicos-yellow transition-colors">Experiencia</a>
+                    </div>
+                </div>
+                <!-- CTA -->
+                <div class="hidden md:block">
+                    <div class="magnetic-wrap">
+                        <div class="magnetic-content">
+                            <a href="https://wa.me/50764245824" target="_blank" rel="noopener noreferrer" id="nav-cta"
+                                class="btn-dicos text-sm py-2 px-6 border-white/30 text-white transition-all duration-500">
+                                Cotizar Proyecto
+                                <i class="ph ph-arrow-right btn-icon text-lg"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="nav-mobile-btn" aria-label="Abrir menú" class="text-white hover:text-dicos-yellow transition-colors cursor-pointer">
+                        <i class="ph ph-list text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="relative min-h-[100svh] flex items-center pt-20 overflow-hidden bg-dicos-dark"
+        style="background-image: url('hero-bg.png'); background-size: cover; background-position: center; background-attachment: fixed;">
+        <!-- Capa oscura superior para asegurar que el texto sea legible -->
+        <div class="absolute inset-0 bg-gradient-to-r from-dicos-dark/95 via-dicos-dark/80 to-transparent z-0"></div>
+
+        <!-- Abstract Backgrounds (tenues) -->
+        <div class="bg-grid parallax z-0 opacity-20" data-speed="0.2"></div>
+        <div class="gradient-blur z-0 opacity-30"></div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 w-full">
+            <div class="max-w-4xl">
+                <!-- Eyebrow -->
+                <div
+                    class="reveal inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/20 bg-dicos-dark/50 backdrop-blur-md mb-6">
+                    <span class="w-2 h-2 rounded-full bg-dicos-yellow animate-pulse"></span>
+                    <span class="text-xs font-semibold tracking-wider uppercase text-white/90">Soluciones Eléctricas
+                        Integrales</span>
+                </div>
+
+                <!-- Main Header -->
+                <h1
+                    class="reveal stagger-1 font-display font-bold text-5xl md:text-7xl lg:text-[5.5rem] leading-[1.05] tracking-tight mb-8 text-white">
+                    Ingeniería y Energía<br>
+                    <span class="text-white/60">que Impulsa el Futuro.</span>
+                </h1>
+
+                <!-- Subheader -->
+                <p class="reveal stagger-2 text-lg md:text-xl text-white/80 mb-10 max-w-2xl leading-relaxed">
+                    Diseño, construcción y mantenimiento de infraestructura eléctrica con precisión milimétrica.
+                    Elevamos los estándares constructivos para la industria de alto rendimiento.
+                </p>
+
+                <!-- CTA Group -->
+                <div class="reveal stagger-3 items-center flex flex-col sm:flex-row gap-4">
+                    <div class="magnetic-wrap">
+                        <div class="magnetic-content">
+                            <a href="#contacto"
+                                class="btn-dicos bg-dicos-dark/20 text-white border-white/20 backdrop-blur-md hover:text-dicos-dark hover:border-dicos-yellow">
+                                Iniciar Proyecto
+                                <i class="ph ph-arrow-up-right btn-icon text-xl"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="magnetic-wrap">
+                        <div class="magnetic-content">
+                            <a href="#servicios"
+                                class="btn-dicos bg-dicos-dark/20 text-white border-white/20 backdrop-blur-md hover:text-dicos-dark hover:border-dicos-yellow">
+                                Explorar Servicios
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-12 right-6 lg:right-12 reveal stagger-4 opacity-70">
+                <div class="flex flex-col items-center gap-3">
+                    <span
+                        class="text-[0.65rem] uppercase tracking-widest font-semibold rotate-90 mb-4 text-white/90">Desliza</span>
+                    <div class="w-px h-16 bg-white/20 relative overflow-hidden">
+                        <div
+                            class="w-full h-1/2 bg-dicos-yellow absolute top-0 animate-[scroll-down_2s_ease-in-out_infinite]">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <style>
+        @keyframes scroll-down {
+            0% {
+                transform: translateY(-100%);
+            }
+
+            100% {
+                transform: translateY(200%);
+            }
+        }
+    </style>
+
+    <!-- CLIENTS / PARTNERS SECTION -->
+    <section id="clientes" class="pt-10 pb-16 relative z-10 bg-white overflow-hidden">
+        <div class="max-w-[76rem] mx-auto px-6 lg:px-8 mb-8">
+            <h3 class="text-center font-sans font-semibold text-sm tracking-[0.2em] text-dicos-accent uppercase reveal">
+                Empresas que confían en nuestra maestría
+            </h3>
+        </div>
+
+        <!-- Marquee Track -->
+        <div class="relative w-full overflow-hidden flex items-center reveal stagger-1">
+            <!-- Fade masks -->
+            <div
+                class="pointer-events-none absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent z-10">
+            </div>
+            <div
+                class="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white to-transparent z-10">
+            </div>
+
+            <div class="animate-marquee-ltr">
+                <!-- Group 1 (For Loop) -->
+                <div
+                    class="flex items-center gap-16 md:gap-24 px-8 md:px-12 text-dicos-gray/50 *:transition-all *:duration-300">
+                    <!-- Cliente 1 -->
+                    <div
+                        class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
+                        <img src="./cliente-1.png" alt="Cliente 1" class="w-full h-full object-contain"
+                            onerror="this.style.display='none'">
+                    </div>
+                    <!-- Cliente 2 -->
+                    <div
+                        class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
+                        <img src="./cliente-2.png" alt="Cliente 2" class="w-full h-full object-contain"
+                            onerror="this.style.display='none'">
+                    </div>
+                    <!-- Cliente 3 -->
+                    <div
+                        class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
+                        <img src="./cliente-3.png" alt="Cliente 3" class="w-full h-full object-contain"
+                            onerror="this.style.display='none'">
+                    </div>
+                    <!-- Cliente 4 (Placeholder SVG) -->
+                    <div
+                        class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
+                        <img src="./cliente-4.png" alt="Cliente 4" class="w-full h-full object-contain"
+                            onerror="this.outerHTML='<div class=\'flex items-center gap-3 text-dicos-dark\'><i class=\'ph-fill ph-command text-3xl\'></i><span class=\'font-display font-bold text-xl tracking-tight\'>Partner</span></div>'">
+                    </div>
+                    <!-- Cliente 5 (Placeholder SVG) -->
+                    <div
+                        class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
+                        <img src="./cliente-5.png" alt="Cliente 5" class="w-full h-full object-contain"
+                            onerror="this.outerHTML='<div class=\'flex items-center gap-3 text-dicos-dark\'><i class=\'ph-fill ph-buildings text-3xl\'></i><span class=\'font-display font-bold text-xl tracking-tight\'>Empresa X</span></div>'">
+                    </div>
+                    <!-- Cliente 6 (Placeholder SVG) -->
+                    <div
+                        class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
+                        <img src="./cliente-6.png" alt="Cliente 6" class="w-full h-full object-contain"
+                            onerror="this.outerHTML='<div class=\'flex items-center gap-3 text-dicos-dark\'><i class=\'ph-fill ph-factory text-3xl\'></i><span class=\'font-display font-bold text-xl tracking-tight\'>Industria Y</span></div>'">
+                    </div>
+                </div>
+
+                <!-- Group 2 (Duplicate for Seamless Loop) -->
+                <div
+                    class="flex items-center gap-16 md:gap-24 px-8 md:px-12 text-dicos-gray/50 *:transition-all *:duration-300">
+                    <!-- Cliente 1 -->
+                    <div
+                        class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
+                        <img src="./cliente-1.png" alt="Cliente 1" class="w-full h-full object-contain"
+                            onerror="this.style.display='none'">
+                    </div>
+                    <!-- Cliente 2 -->
+                    <div
+                        class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
+                        <img src="./cliente-2.png" alt="Cliente 2" class="w-full h-full object-contain"
+                            onerror="this.style.display='none'">
+                    </div>
+                    <!-- Cliente 3 -->
+                    <div
+                        class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
+                        <img src="./cliente-3.png" alt="Cliente 3" class="w-full h-full object-contain"
+                            onerror="this.style.display='none'">
+                    </div>
+                    <!-- Cliente 4 (Placeholder SVG) -->
+                    <div
+                        class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
+                        <img src="./cliente-4.png" alt="Cliente 4" class="w-full h-full object-contain"
+                            onerror="this.outerHTML='<div class=\'flex items-center gap-3 text-dicos-dark\'><i class=\'ph-fill ph-command text-3xl\'></i><span class=\'font-display font-bold text-xl tracking-tight\'>Partner</span></div>'">
+                    </div>
+                    <!-- Cliente 5 (Placeholder SVG) -->
+                    <div
+                        class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
+                        <img src="./cliente-5.png" alt="Cliente 5" class="w-full h-full object-contain"
+                            onerror="this.outerHTML='<div class=\'flex items-center gap-3 text-dicos-dark\'><i class=\'ph-fill ph-buildings text-3xl\'></i><span class=\'font-display font-bold text-xl tracking-tight\'>Empresa X</span></div>'">
+                    </div>
+                    <!-- Cliente 6 (Placeholder SVG) -->
+                    <div
+                        class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
+                        <img src="./cliente-6.png" alt="Cliente 6" class="w-full h-full object-contain"
+                            onerror="this.outerHTML='<div class=\'flex items-center gap-3 text-dicos-dark\'><i class=\'ph-fill ph-factory text-3xl\'></i><span class=\'font-display font-bold text-xl tracking-tight\'>Industria Y</span></div>'">
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- SERVICES SECTION -->
+    <section id="servicios" class="pt-2 md:pt-4 pb-24 relative z-10 bg-dicos-light">
+        <div class="max-w-[76rem] mx-auto px-6 lg:px-8">
+            <div class="mb-8 w-full reveal text-center lg:text-left">
+                <h2 class="font-display font-bold tracking-tight text-3xl md:text-5xl text-dicos-dark">Nuestros Servicios</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+                <!-- Left: Dynamic Image Display -->
+                <div
+                    class="reveal stagger-1 relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-xl bg-dicos-dark/5 group">
+                    <img id="service-image-display" src="./servicio-1.jpg" alt="Servicio Activo"
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    <!-- Subtle overlay -->
+                    <div class="absolute inset-0 bg-dicos-dark/5 mix-blend-overlay"></div>
+                </div>
+
+                <!-- Right: Services Accordion -->
+                <div class="reveal stagger-2 flex flex-col space-y-0 lg:py-4" id="services-accordion">
+
+                    <!-- Service 1 -->
+                    <div class="service-item active group cursor-pointer" tabindex="0" data-image="./servicio-1.jpg">
+                        <h3
+                            class="service-accordion-title font-display text-xl lg:text-2xl text-dicos-gray/70 py-3 group-[.active]:text-dicos-dark group-[.active]:text-2xl group-[.active]:lg:text-[2rem] group-[.active]:font-medium hover:text-dicos-dark transition-all">
+                            Infraestructura Eléctrica
+                        </h3>
+                        <div class="service-accordion-content">
+                            <div class="service-inner">
+                                <div class="w-full h-px bg-dicos-dark/10 group-[.active]:bg-dicos-yellow transition-colors duration-300 mb-3"></div>
+                                <p class="text-dicos-gray text-sm leading-relaxed mb-3 pr-6">Diseño y desarrollo de
+                                    redes eléctricas residenciales, comerciales e industriales de alta eficiencia,
+                                    operativas bajo estrictas normas internacionales
+                                    de seguridad.</p>
+                                <a href="#contacto"
+                                    class="inline-block text-xs font-semibold text-dicos-dark hover:text-dicos-yellow transition-colors underline decoration-1 underline-offset-[3px] mb-4">Saber
+                                    más</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <div class="service-item group cursor-pointer" tabindex="0" data-image="./servicio-2.jpg">
+                        <h3
+                            class="service-accordion-title font-display text-xl lg:text-2xl text-dicos-gray/70 py-3 group-[.active]:text-dicos-dark group-[.active]:text-2xl group-[.active]:lg:text-[2rem] group-[.active]:font-medium hover:text-dicos-dark transition-all">
+                            Sistemas Solares
+                        </h3>
+                        <div class="service-accordion-content">
+                            <div class="service-inner">
+                                <div class="w-full h-px bg-dicos-dark/10 group-[.active]:bg-dicos-yellow transition-colors duration-300 mb-3"></div>
+                                <p class="text-dicos-gray text-sm leading-relaxed mb-3 pr-6">Diseño e instalación de
+                                    sistemas Solares
+                                    fotovoltaicos off-grid y on-grid para aplicaciones residenciales, comerciales e
+                                    industriales.
+                                </p>
+                                <a href="#contacto"
+                                    class="inline-block text-xs font-semibold text-dicos-dark hover:text-dicos-yellow transition-colors underline decoration-1 underline-offset-[3px] mb-4">Saber
+                                    más</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div class="service-item group cursor-pointer" tabindex="0" data-image="./servicio-3.jpg">
+                        <h3
+                            class="service-accordion-title font-display text-xl lg:text-2xl text-dicos-gray/70 py-3 group-[.active]:text-dicos-dark group-[.active]:text-2xl group-[.active]:lg:text-[2rem] group-[.active]:font-medium hover:text-dicos-dark transition-all">
+                            Mantenimiento
+                        </h3>
+                        <div class="service-accordion-content">
+                            <div class="service-inner">
+                                <div class="w-full h-px bg-dicos-dark/10 group-[.active]:bg-dicos-yellow transition-colors duration-300 mb-3"></div>
+                                <p class="text-dicos-gray text-sm leading-relaxed mb-3 pr-6">Programas preventivos y
+                                    correctivos para sistemas eléctricos de potencia.</p>
+                                <a href="#contacto"
+                                    class="inline-block text-xs font-semibold text-dicos-dark hover:text-dicos-yellow transition-colors underline decoration-1 underline-offset-[3px] mb-4">Saber
+                                    más</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service 4 -->
+                    <div class="service-item group cursor-pointer" tabindex="0" data-image="./servicio-4.jpg">
+                        <h3
+                            class="service-accordion-title font-display text-xl lg:text-2xl text-dicos-gray/70 py-3 group-[.active]:text-dicos-dark group-[.active]:text-2xl group-[.active]:lg:text-[2rem] group-[.active]:font-medium hover:text-dicos-dark transition-all">
+                            Poda Preventiva
+                        </h3>
+                        <div class="service-accordion-content">
+                            <div class="service-inner">
+                                <div class="w-full h-px bg-dicos-dark/10 group-[.active]:bg-dicos-yellow transition-colors duration-300 mb-3"></div>
+                                <p class="text-dicos-gray text-sm leading-relaxed mb-3 pr-6">Gestión de vegetación y
+                                    despeje de redes de media y alta tensión, asegurando la continuidad del suministro.
+                                </p>
+                                <a href="#contacto"
+                                    class="inline-block text-xs font-semibold text-dicos-dark hover:text-dicos-yellow transition-colors underline decoration-1 underline-offset-[3px] mb-4">Saber
+                                    más</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service 5 -->
+                    <div class="service-item group cursor-pointer" tabindex="0" data-image="./servicio-5.jpg">
+                        <h3
+                            class="service-accordion-title font-display text-xl lg:text-2xl text-dicos-gray/70 py-3 group-[.active]:text-dicos-dark group-[.active]:text-2xl group-[.active]:lg:text-[2rem] group-[.active]:font-medium hover:text-dicos-dark transition-all">
+                            Asesoría Ingenieril
+                        </h3>
+                        <div class="service-accordion-content">
+                            <div class="service-inner">
+                                <div class="w-full h-px bg-dicos-dark/10 mb-3"></div>
+                                <p class="text-dicos-gray text-sm leading-relaxed mb-3 pr-6">Consultoría de ingeniería
+                                    para proyectos a gran escala. Optimizamos topologías de red, estudios de carga y
+                                    certificaciones.</p>
+                                <a href="#contacto"
+                                    class="inline-block text-xs font-semibold text-dicos-dark hover:text-dicos-yellow transition-colors underline decoration-1 underline-offset-[3px] mb-4">Saber
+                                    más</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IMPACT STATS SECTION (Dark Mode) -->
+    <section id="experiencia" class="py-32 bg-dicos-dark text-dicos-light relative overflow-hidden">
+        <!-- Background element -->
+        <div class="absolute top-0 right-0 w-full h-full opacity-[0.02] pointer-events-none parallax" data-speed="0.1">
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <pattern id="gridLarge" width="80" height="80" patternUnits="userSpaceOnUse">
+                        <path d="M 80 0 L 0 0 0 80" fill="none" stroke="white" stroke-width="1" />
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#gridLarge)" />
+            </svg>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-20 reveal">
+                <h2 class="font-display font-bold text-4xl md:text-5xl mb-4">La Precisión en Números</h2>
+                <div class="w-16 h-1 bg-dicos-yellow mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-12 text-center" id="counter-section">
+                <!-- Stat 1 -->
+                <div class="reveal stagger-1">
+                    <div class="font-display font-bold text-5xl md:text-6xl text-dicos-yellow mb-2">
+                        +<span class="counter" data-target="50">0</span>
+                    </div>
+                    <div class="text-sm font-medium tracking-wide text-dicos-gray uppercase">Proyectos Entregados</div>
+                </div>
+
+                <!-- Stat 2 -->
+                <div class="reveal stagger-2">
+                    <div class="font-display font-bold text-5xl md:text-6xl text-dicos-light mb-2">
+                        <span class="counter" data-target="1000">0</span><span
+                            class="text-3xl text-dicos-yellow">kW</span>
+                    </div>
+                    <div class="text-sm font-medium tracking-wide text-dicos-gray uppercase">Potencia Instalada</div>
+                </div>
+
+                <!-- Stat 3 -->
+                <div class="reveal stagger-3">
+                    <div class="font-display font-bold text-5xl md:text-6xl text-dicos-light mb-2">
+                        +<span class="counter" data-target="9">0</span>
+                    </div>
+                    <div class="text-sm font-medium tracking-wide text-dicos-gray uppercase">Años de Experiencia</div>
+                </div>
+
+                <!-- Stat 4 -->
+                <div class="reveal stagger-4">
+                    <div class="font-display font-bold text-5xl md:text-6xl text-dicos-yellow mb-2">
+                        +<span class="counter" data-target="40">0</span>
+                    </div>
+                    <div class="text-sm font-medium tracking-wide text-dicos-gray uppercase">Km de Líneas Instaladas
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CALL TO ACTION (Pre-footer) -->
+    <section id="contacto" class="py-32 bg-gradient-to-b from-neutral-200 to-white relative z-10 overflow-hidden">
+        <!-- Interactive Electrical Grid Background -->
+        <canvas id="electrical-grid" class="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-80"></canvas>
+
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+            <h2 class="font-display font-bold text-4xl md:text-6xl mb-6 reveal">Tú lo piensas,
+                nosotros lo hacemos
+                realidad.</h2>
+            <p class="text-dicos-gray text-lg mb-10 reveal stagger-1">Hablemos de tus requerimientos técnicos. Nuestro
+                equipo de ingenieros está listo para diseñar la solución que necesitas.</p>
+            <div class="reveal stagger-2 magnetic-wrap pointer-events-auto relative z-20">
+                <div class="magnetic-content">
+                    <a href="https://wa.me/50764245824" target="_blank" rel="noopener noreferrer"
+                        class="btn-dicos bg-dicos-dark text-dicos-light border-dicos-dark hover:bg-neutral-800 hover:text-white transition-colors relative z-20">
+                        Solicitar Asesoría Técnica
+                        <i class="ph ph-envelope-simple btn-icon text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-white pt-16 pb-8 text-sm relative z-10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                <!-- Branding -->
+                <div class="md:col-span-2">
+                    <div
+                        class="font-display font-bold text-xl tracking-tighter text-dicos-dark uppercase flex flex-col leading-none mb-6">
+                        <span>Dicos</span>
+                        <span class="text-[0.45rem] tracking-[0.2em] font-sans text-dicos-gray">Ingeniería</span>
+                    </div>
+                    <p class="text-dicos-gray max-w-xs leading-relaxed">
+                        Desarrollo, construcción y mantenimiento élite para el sector eléctrico y electromecánico
+                        industrial.
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-bold mb-4 text-dicos-dark uppercase tracking-wider text-xs">Empresa</h4>
+                    <ul class="space-y-3 text-dicos-gray">
+                        <li><a href="#" class="hover:text-dicos-yellow transition-colors">Nosotros</a></li>
+                        <li><a href="#" class="hover:text-dicos-yellow transition-colors">Servicios</a></li>
+                        <li><a href="#" class="hover:text-dicos-yellow transition-colors">Proyectos CSR</a></li>
+                        <li><a href="#" class="hover:text-dicos-yellow transition-colors">Bolsa de Trabajo</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact info -->
+                <div>
+                    <h4 class="font-bold mb-4 text-dicos-dark uppercase tracking-wider text-xs">Contacto Central</h4>
+                    <ul class="space-y-3 text-dicos-gray">
+                        <li class="flex items-center gap-2"><i class="ph ph-map-pin"></i> Ave. Fco Clark. David,
+                            Chiriquí
+                        </li>
+                        <li class="flex items-center gap-2"><i class="ph ph-phone"></i> +507 6424-5824</li>
+                        <li class="flex items-center gap-2"><i class="ph ph-envelope"></i> grupodicossa@hotmail.com</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-dicos-dark/10 text-dicos-gray/60">
+                <p>&copy; 2026 Grupo Dicos. Todos los derechos reservados.</p>
+                <div class="flex gap-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-dicos-dark transition-colors">Políticas de Privacidad</a>
+                    <a href="#" class="hover:text-dicos-dark transition-colors">Términos Téchnicos</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTION LOGIC -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            // 0. Interactive Electrical Grid Animation (CTA Section)
+            const initElectricalGrid = () => {
+                const canvas = document.getElementById('electrical-grid');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                const container = canvas.parentElement;
+                let width, height;
+                let mouse = { x: -1000, y: -1000 };
+                const spacing = 40; // Spacing between grid nodes
+                let cols, rows;
+                let nodes = [];
+                let pulses = [];
+
+                // Track mouse position over the container
+                container.addEventListener('mousemove', (e) => {
+                    const rect = container.getBoundingClientRect();
+                    mouse.x = e.clientX - rect.left;
+                    mouse.y = e.clientY - rect.top;
+                });
+                container.addEventListener('mouseleave', () => {
+                    mouse = { x: -1000, y: -1000 };
+                });
+
+                const resize = () => {
+                    const rect = canvas.parentElement.getBoundingClientRect();
+                    width = canvas.width = rect.width;
+                    height = canvas.height = rect.height;
+                    cols = Math.floor(width / spacing) + 1;
+                    rows = Math.floor(height / spacing) + 1;
+                    initNodes();
+                };
+
+                const initNodes = () => {
+                    nodes = [];
+                    for (let x = 0; x < cols; x++) {
+                        nodes[x] = [];
+                        for (let y = 0; y < rows; y++) {
+                            nodes[x][y] = {
+                                x: x * spacing + (width - (cols - 1) * spacing) / 2,
+                                y: y * spacing + (height - (rows - 1) * spacing) / 2,
+                                active: 0
+                            };
+                        }
+                    }
+                };
+
+                // Create a new electrical pulse
+                const spawnPulse = () => {
+                    if (nodes.length === 0) return;
+                    const startX = Math.floor(Math.random() * cols);
+                    const startY = Math.floor(Math.random() * rows);
+                    // 0: right, 1: down, 2: left, 3: up
+                    const dir = Math.floor(Math.random() * 4);
+
+                    pulses.push({
+                        currX: startX,
+                        currY: startY,
+                        dir: dir,
+                        progress: 0,
+                        speed: 0.05 + Math.random() * 0.05,
+                        life: 1,
+                        decay: 0.01 + Math.random() * 0.02
+                    });
+                };
+
+                const updateAndDraw = () => {
+                    ctx.clearRect(0, 0, width, height);
+
+                    // 1. Draw static grid dots
+                    ctx.fillStyle = 'rgba(18, 18, 18, 0.25)'; // dicos-dark with a bit more opacity
+                    for (let x = 0; x < cols; x++) {
+                        for (let y = 0; y < rows; y++) {
+                            const node = nodes[x][y];
+
+                            // Distance from mouse
+                            const dx = mouse.x - node.x;
+                            const dy = mouse.y - node.y;
+                            const dist = Math.sqrt(dx * dx + dy * dy);
+
+                            let radius = 1;
+                            // Nodes near mouse slightly larger
+                            if (dist < 100) {
+                                radius = 1 + (100 - dist) / 50;
+                            }
+                            // Nodes that recently had a pulse
+                            if (node.active > 0) {
+                                radius += node.active * 2;
+                                node.active -= 0.05;
+                            }
+
+                            ctx.beginPath();
+                            ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
+                            ctx.fill();
+
+                            // Draw faint connections near mouse
+                            if (dist < 80) {
+                                if (x < cols - 1) {
+                                    ctx.beginPath();
+                                    ctx.moveTo(node.x, node.y);
+                                    ctx.lineTo(nodes[x + 1][y].x, nodes[x + 1][y].y);
+                                    ctx.strokeStyle = `rgba(18, 18, 18, ${(80 - dist) / 800})`;
+                                    ctx.stroke();
+                                }
+                                if (y < rows - 1) {
+                                    ctx.beginPath();
+                                    ctx.moveTo(node.x, node.y);
+                                    ctx.lineTo(nodes[x][y + 1].x, nodes[x][y + 1].y);
+                                    ctx.strokeStyle = `rgba(18, 18, 18, ${(80 - dist) / 800})`;
+                                    ctx.stroke();
+                                }
+                            }
+                        }
+                    }
+
+                    // 2. Update and draw pulses
+                    // Spawn new pulses randomly, or more frequently if mouse is moving
+                    if (Math.random() < 0.05) spawnPulse();
+
+                    for (let i = pulses.length - 1; i >= 0; i--) {
+                        let p = pulses[i];
+                        p.progress += p.speed;
+                        p.life -= p.decay;
+
+                        if (p.life <= 0) {
+                            pulses.splice(i, 1);
+                            continue;
+                        }
+
+                        if (p.progress >= 1) {
+                            // Move to next node
+                            p.progress = 0;
+                            if (p.dir === 0) p.currX++;
+                            else if (p.dir === 1) p.currY++;
+                            else if (p.dir === 2) p.currX--;
+                            else if (p.dir === 3) p.currY--;
+
+                            // Check bounds
+                            if (p.currX < 0 || p.currX >= cols || p.currY < 0 || p.currY >= rows) {
+                                pulses.splice(i, 1);
+                                continue;
+                            }
+
+                            // Activate the node we just arrived at
+                            nodes[p.currX][p.currY].active = p.life;
+
+                            // Random chance to change direction (90 degrees)
+                            if (Math.random() < 0.3) {
+                                if (p.dir === 0 || p.dir === 2) p.dir = Math.random() < 0.5 ? 1 : 3;
+                                else p.dir = Math.random() < 0.5 ? 0 : 2;
+                            }
+                        }
+
+                        // Calculate visual position
+                        let nextX = p.currX;
+                        let nextY = p.currY;
+                        if (p.dir === 0) nextX = Math.min(cols - 1, p.currX + 1);
+                        else if (p.dir === 1) nextY = Math.min(rows - 1, p.currY + 1);
+                        else if (p.dir === 2) nextX = Math.max(0, p.currX - 1);
+                        else if (p.dir === 3) nextY = Math.max(0, p.currY - 1);
+
+                        const startNode = nodes[p.currX][p.currY];
+                        const endNode = nodes[nextX][nextY];
+
+                        const drawX = startNode.x + (endNode.x - startNode.x) * p.progress;
+                        const drawY = startNode.y + (endNode.y - startNode.y) * p.progress;
+
+                        // Draw pulse spark
+                        ctx.beginPath();
+                        ctx.arc(drawX, drawY, 2 * p.life, 0, Math.PI * 2);
+                        // Make sparks yellow
+                        ctx.fillStyle = `rgba(242, 169, 0, ${p.life})`;
+                        ctx.fill();
+
+                        // Draw trail
+                        ctx.beginPath();
+                        ctx.moveTo(startNode.x, startNode.y);
+                        ctx.lineTo(drawX, drawY);
+                        ctx.strokeStyle = `rgba(242, 169, 0, ${p.life * 0.5})`;
+                        ctx.lineWidth = 1.5;
+                        ctx.stroke();
+                    }
+
+                    requestAnimationFrame(updateAndDraw);
+                };
+
+                window.addEventListener('resize', resize);
+                resize();
+                updateAndDraw();
+            };
+
+            initElectricalGrid();
+
+            // 1. Intersection Observer for Scroll Reveals
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 // Trigger when 15% visible
+            };
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Stop observing once revealed for better performance
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal').forEach(el => {
+                revealObserver.observe(el);
+            });
+
+            // 2. Dynamic Counters (Triggered on Scroll)
+            let countersStarted = false;
+            const statsObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !countersStarted) {
+                        countersStarted = true;
+                        const counters = entry.target.querySelectorAll('.counter');
+
+                        counters.forEach(counter => {
+                            const target = +counter.getAttribute('data-target');
+                            const duration = 2000; // ms
+                            const increment = target / (duration / 16); // Assuming 60fps (16ms per frame)
+                            let current = 0;
+
+                            const updateCounter = () => {
+                                current += increment;
+                                if (current < target) {
+                                    counter.innerText = Math.ceil(current);
+                                    requestAnimationFrame(updateCounter);
+                                } else {
+                                    counter.innerText = target;
+                                }
+                            };
+                            updateCounter();
+                        });
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.4 }); // trigger when block is 40% in view
+
+            const statsSection = document.getElementById('counter-section');
+            if (statsSection) {
+                statsObserver.observe(statsSection);
+            }
+
+            // 3. Smooth Parallax Effect for Backgrounds & Scroll Progress
+            const progressBar = document.getElementById('scroll-progress-bar');
+            const navCta = document.getElementById('nav-cta');
+            const navbar = document.getElementById('navbar');
+            const navLogo = document.getElementById('nav-logo');
+            const navLinks = document.getElementById('nav-links');
+            const navMobileBtn = document.getElementById('nav-mobile-btn');
+
+            window.addEventListener('scroll', () => {
+                const scrolled = window.scrollY; // Use scrollY
+
+                // Get the top offset of the Contact section to use as 100% target
+                const contactSection = document.getElementById('contacto');
+                // Target is (Element Top - window inner height), meaning the element is fully in view from the bottom up.
+                // We add some pixel buffer to ensure it touches 100% just when the section is nicely visible.
+                let targetScroll = document.documentElement.scrollHeight - window.innerHeight;
+
+                if (contactSection) {
+                    targetScroll = contactSection.offsetTop - (window.innerHeight / 2);
+                }
+
+                // Smoothly clamp scroll fraction between 0 and 1
+                const scrollFraction = Math.max(0, Math.min(1, scrolled / targetScroll));
+
+                // Animate elements with parallax class
+                document.querySelectorAll('.parallax').forEach(el => {
+                    const speed = el.getAttribute('data-speed');
+                    // Use translate3d for hardware acceleration
+                    el.style.transform = `translate3d(0, ${scrolled * speed}px, 0)`;
+                });
+
+                // Update Progress Bar
+                if (progressBar) {
+                    progressBar.style.transform = `scaleX(${scrollFraction})`;
+                }
+
+                // CTA Glow at Bottom (when progress is essentially 100%)
+                if (navCta) {
+                    if (scrollFraction >= 0.99) {
+                        navCta.classList.add('bg-dicos-yellow', 'text-dicos-dark', 'shadow-[0_0_15px_rgba(242,169,0,0.6)]', 'border-dicos-yellow');
+                        navCta.classList.remove('border-white/30', 'text-white');
+                    } else {
+                        navCta.classList.remove('bg-dicos-yellow', 'shadow-[0_0_15px_rgba(242,169,0,0.6)]', 'border-dicos-yellow');
+                        // Restore proper border/text depending on navbar state
+                        if (scrolled > 50) {
+                            navCta.classList.remove('text-white', 'border-white/30');
+                            navCta.classList.add('text-dicos-dark', 'border-dicos-yellow');
+                        } else {
+                            navCta.classList.add('text-white', 'border-white/30');
+                            navCta.classList.remove('text-dicos-dark', 'border-dicos-yellow');
+                        }
+                    }
+                }
+
+                // Navbar blur/shadow effect based on scroll
+                const navLogoImg = document.getElementById('nav-logo-img');
+
+                if (scrolled > 50) {
+                    navbar.classList.add('shadow-md', 'backdrop-blur-xl', 'bg-white/40', 'border-dicos-dark/10');
+                    navbar.classList.remove('bg-transparent', 'border-transparent');
+
+                    if (navLogoImg) { navLogoImg.classList.remove('brightness-0', 'invert'); }
+                    if (navLinks) { navLinks.classList.remove('text-white'); navLinks.classList.add('text-dicos-dark'); }
+                    if (navMobileBtn) { navMobileBtn.classList.remove('text-white'); navMobileBtn.classList.add('text-dicos-dark'); }
+                    if (navCta && scrollFraction <= 0.98) { navCta.classList.remove('text-white', 'border-white/30'); navCta.classList.add('text-dicos-dark', 'border-dicos-dark/20'); }
+
+                } else {
+                    navbar.classList.remove('shadow-md', 'backdrop-blur-xl', 'bg-white/40', 'border-dicos-dark/10');
+                    navbar.classList.add('bg-transparent', 'border-transparent');
+
+                    if (navLogoImg) { navLogoImg.classList.add('brightness-0', 'invert'); }
+                    if (navLinks) { navLinks.classList.add('text-white'); navLinks.classList.remove('text-dicos-dark'); }
+                    if (navMobileBtn) { navMobileBtn.classList.add('text-white'); navMobileBtn.classList.remove('text-dicos-dark'); }
+                    if (navCta && scrollFraction <= 0.98) { navCta.classList.add('text-white', 'border-white/30'); navCta.classList.remove('text-dicos-dark', 'border-dicos-dark/20'); }
+                }
+            }, { passive: true });
+
+            // 4. Magnetic Micro-interactions for Buttons
+            // Eradicating generic CSS hover bounds, giving weight to interaction.
+            document.querySelectorAll('.magnetic-wrap').forEach(wrap => {
+                const content = wrap.querySelector('.magnetic-content');
+
+                wrap.addEventListener('mousemove', (e) => {
+                    const rect = wrap.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+
+                    // Multiply by a factor (e.g. 0.3) for softer/heavier feel
+                    content.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+                });
+
+                wrap.addEventListener('mouseleave', () => {
+                    // Reset smoothly
+                    content.style.transform = `translate(0px, 0px)`;
+                });
+            });
+
+            // 5. Interactive Services Accordion
+            const serviceItems = document.querySelectorAll('.service-item');
+            const serviceImageDisplay = document.getElementById('service-image-display');
+            let imagePulseTimeout;
+            let activationTimeout;
+            let currentImageSrc = serviceImageDisplay ? serviceImageDisplay.getAttribute('src') : '';
+
+            serviceItems.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    const targetImage = item.getAttribute('data-image');
+                    
+                    // Kill any pending activation OR image swap from previous hovers IMMEDIATELY
+                    clearTimeout(activationTimeout);
+                    clearTimeout(imagePulseTimeout);
+
+                    activationTimeout = setTimeout(() => {
+                        // 1. Update active states for the text/accordion
+                        serviceItems.forEach(el => el.classList.remove('active'));
+                        item.classList.add('active');
+
+                        // 2. Handle image swap if different
+                        if (currentImageSrc !== targetImage) {
+                            currentImageSrc = targetImage;
+                            
+                            // Fade out
+                            serviceImageDisplay.style.opacity = '0';
+                            
+                            imagePulseTimeout = setTimeout(() => {
+                                serviceImageDisplay.src = targetImage;
+                                // Fade in
+                                serviceImageDisplay.style.opacity = '1';
+                            }, 300);
+                        } else {
+                            // Ensure it's visible if we somehow were in the middle of a fade
+                            serviceImageDisplay.style.opacity = '1';
+                        }
+                    }, 150); // Debounce to allow "skating" over items
+                });
+
+                item.addEventListener('mouseleave', () => {
+                    // If we leave before the activation happens, cancel it
+                    clearTimeout(activationTimeout);
+                });
+            });
+
+        });
+    </script>
+</body>
+
+</html>
