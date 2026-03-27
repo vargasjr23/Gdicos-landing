@@ -16,6 +16,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grupo Dicos | Ingeniería y Energía que Impulsa el Futuro</title>
 
+    <!-- Favicon -->
+    <link rel="icon" href="./logo.png" type="image/png">
+
+    <!-- SEO -->
+    <meta name="description" content="Grupo Dicos: Diseño, construcción y mantenimiento de infraestructura eléctrica e instalaciones solares en Panamá. Más de 9 años de experiencia en proyectos residenciales, comerciales e industriales.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.grupodicos.com/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Grupo Dicos">
+    <meta property="og:title" content="Grupo Dicos | Ingeniería y Energía que Impulsa el Futuro">
+    <meta property="og:description" content="Diseño, construcción y mantenimiento de infraestructura eléctrica con precisión milimétrica. Elevamos los estándares constructivos para la industria de alto rendimiento.">
+    <meta property="og:image" content="https://www.grupodicos.com/hero-bg.png">
+    <meta property="og:locale" content="es_PA">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Grupo Dicos | Ingeniería y Energía que Impulsa el Futuro">
+    <meta name="twitter:description" content="Diseño, construcción y mantenimiento de infraestructura eléctrica con precisión milimétrica. Elevamos los estándares constructivos para la industria.">
+    <meta name="twitter:image" content="https://www.grupodicos.com/hero-bg.png">
+
+    <!-- Preload critical above-the-fold image -->
+    <link rel="preload" as="image" href="./hero-bg.png" fetchpriority="high">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,31 +48,39 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Inter+Tight:wght@500;700;800&display=swap"
         rel="stylesheet">
 
-    <!-- Phosphor Icons -->
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Phosphor Icons (deferred to avoid render-blocking) -->
+    <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
 
-    <!-- Tailwind CSS (CDN for layout, extended in script) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        dicos: {
-                            light: '#F8F9FA',
-                            dark: '#121212',
-                            yellow: '#F2A900', /* Amarillo Industrial Dicos */
-                            gray: '#8a8a8a',
-                            border: 'rgba(18, 18, 18, 0.08)'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        display: ['Inter Tight', 'sans-serif']
-                    }
-                }
-            }
-        }
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Grupo Dicos",
+      "alternateName": "Dicos Ingeniería",
+      "description": "Diseño, construcción y mantenimiento de infraestructura eléctrica e instalaciones solares para aplicaciones residenciales, comerciales e industriales en Panamá.",
+      "url": "https://www.grupodicos.com/",
+      "telephone": "+50764245824",
+      "email": "grupodicossa@hotmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Ave. Fco Clark",
+        "addressLocality": "David",
+        "addressRegion": "Chiriquí",
+        "addressCountry": "PA"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Servicios de Ingeniería Eléctrica",
+        "itemListElement": [
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Infraestructura Eléctrica"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Sistemas Solares Fotovoltaicos"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Mantenimiento de Sistemas Eléctricos"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Poda Preventiva de Redes de Alta Tensión"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Asesoría Ingenieril"}}
+        ]
+      }
+    }
     </script>
 
     <!-- Custom CSS (Animations, Behaviors, Micro-interactions) -->
@@ -169,7 +202,6 @@
             justify-content: center;
             gap: 0.75rem;
             border: 1px solid var(--dicos-yellow);
-            color: var(--dicos-dark);
             background: transparent;
             padding: 1rem 2rem;
             border-radius: 9999px;
@@ -340,6 +372,13 @@
             border-radius: 4px;
         }
 
+        /* Performance: Disable fixed background attachment on mobile — causes continuous repaints */
+        @media (max-width: 768px) {
+            header {
+                background-attachment: scroll !important;
+            }
+        }
+
         @media (prefers-reduced-motion: reduce) {
             * {
                 animation-duration: 0.01ms !important;
@@ -351,6 +390,10 @@
             .animate-marquee-ltr { animation: none !important; transform: none !important; }
         }
     </style>
+
+    <!-- Tailwind CSS (compiled — run "npm run build" to regenerate after editing) -->
+    <!-- Placed after custom <style> block so Tailwind utility classes (e.g. text-white) win in the cascade -->
+    <link rel="stylesheet" href="./style.css">
 </head>
 
 <body class="selection:bg-dicos-yellow selection:text-dicos-dark">
@@ -517,37 +560,37 @@
                     <!-- Cliente 1 -->
                     <div
                         class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
-                        <img src="./cliente-1.png" alt="Cliente 1" class="w-full h-full object-contain"
+                        <img src="./cliente-1.png" alt="Cliente 1 - Empresa aliada de Grupo Dicos" loading="lazy" class="w-full h-full object-contain"
                             onerror="this.style.display='none'">
                     </div>
                     <!-- Cliente 2 -->
                     <div
                         class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
-                        <img src="./cliente-2.png" alt="Cliente 2" class="w-full h-full object-contain"
+                        <img src="./cliente-2.png" alt="Cliente 2 - Empresa aliada de Grupo Dicos" loading="lazy" class="w-full h-full object-contain"
                             onerror="this.style.display='none'">
                     </div>
                     <!-- Cliente 3 -->
                     <div
                         class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
-                        <img src="./cliente-3.png" alt="Cliente 3" class="w-full h-full object-contain"
+                        <img src="./cliente-3.png" alt="Cliente 3 - Empresa aliada de Grupo Dicos" loading="lazy" class="w-full h-full object-contain"
                             onerror="this.style.display='none'">
                     </div>
                     <!-- Cliente 4 (Placeholder SVG) -->
                     <div
                         class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
-                        <img src="./cliente-4.png" alt="Cliente 4" class="w-full h-full object-contain"
+                        <img src="./cliente-4.png" alt="Cliente 4 - Empresa aliada de Grupo Dicos" loading="lazy" class="w-full h-full object-contain"
                             onerror="this.outerHTML='<div class=\'flex items-center gap-3 text-dicos-dark\'><i class=\'ph-fill ph-command text-3xl\'></i><span class=\'font-display font-bold text-xl tracking-tight\'>Partner</span></div>'">
                     </div>
                     <!-- Cliente 5 (Placeholder SVG) -->
                     <div
                         class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
-                        <img src="./cliente-5.png" alt="Cliente 5" class="w-full h-full object-contain"
+                        <img src="./cliente-5.png" alt="Cliente 5 - Empresa aliada de Grupo Dicos" loading="lazy" class="w-full h-full object-contain"
                             onerror="this.outerHTML='<div class=\'flex items-center gap-3 text-dicos-dark\'><i class=\'ph-fill ph-buildings text-3xl\'></i><span class=\'font-display font-bold text-xl tracking-tight\'>Empresa X</span></div>'">
                     </div>
                     <!-- Cliente 6 (Placeholder SVG) -->
                     <div
                         class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
-                        <img src="./cliente-6.png" alt="Cliente 6" class="w-full h-full object-contain"
+                        <img src="./cliente-6.png" alt="Cliente 6 - Empresa aliada de Grupo Dicos" loading="lazy" class="w-full h-full object-contain"
                             onerror="this.outerHTML='<div class=\'flex items-center gap-3 text-dicos-dark\'><i class=\'ph-fill ph-factory text-3xl\'></i><span class=\'font-display font-bold text-xl tracking-tight\'>Industria Y</span></div>'">
                     </div>
                 </div>
@@ -558,37 +601,37 @@
                     <!-- Cliente 1 -->
                     <div
                         class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
-                        <img src="./cliente-1.png" alt="Cliente 1" class="w-full h-full object-contain"
+                        <img src="./cliente-1.png" alt="Cliente 1 - Empresa aliada de Grupo Dicos" loading="lazy" class="w-full h-full object-contain"
                             onerror="this.style.display='none'">
                     </div>
                     <!-- Cliente 2 -->
                     <div
                         class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
-                        <img src="./cliente-2.png" alt="Cliente 2" class="w-full h-full object-contain"
+                        <img src="./cliente-2.png" alt="Cliente 2 - Empresa aliada de Grupo Dicos" loading="lazy" class="w-full h-full object-contain"
                             onerror="this.style.display='none'">
                     </div>
                     <!-- Cliente 3 -->
                     <div
                         class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
-                        <img src="./cliente-3.png" alt="Cliente 3" class="w-full h-full object-contain"
+                        <img src="./cliente-3.png" alt="Cliente 3 - Empresa aliada de Grupo Dicos" loading="lazy" class="w-full h-full object-contain"
                             onerror="this.style.display='none'">
                     </div>
                     <!-- Cliente 4 (Placeholder SVG) -->
                     <div
                         class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
-                        <img src="./cliente-4.png" alt="Cliente 4" class="w-full h-full object-contain"
+                        <img src="./cliente-4.png" alt="Cliente 4 - Empresa aliada de Grupo Dicos" loading="lazy" class="w-full h-full object-contain"
                             onerror="this.outerHTML='<div class=\'flex items-center gap-3 text-dicos-dark\'><i class=\'ph-fill ph-command text-3xl\'></i><span class=\'font-display font-bold text-xl tracking-tight\'>Partner</span></div>'">
                     </div>
                     <!-- Cliente 5 (Placeholder SVG) -->
                     <div
                         class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
-                        <img src="./cliente-5.png" alt="Cliente 5" class="w-full h-full object-contain"
+                        <img src="./cliente-5.png" alt="Cliente 5 - Empresa aliada de Grupo Dicos" loading="lazy" class="w-full h-full object-contain"
                             onerror="this.outerHTML='<div class=\'flex items-center gap-3 text-dicos-dark\'><i class=\'ph-fill ph-buildings text-3xl\'></i><span class=\'font-display font-bold text-xl tracking-tight\'>Empresa X</span></div>'">
                     </div>
                     <!-- Cliente 6 (Placeholder SVG) -->
                     <div
                         class="flex items-center justify-center brightness-0 opacity-40 hover:brightness-100 hover:opacity-100 hover:drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] cursor-pointer transition-all h-24 py-5 md:h-[7.5rem] md:py-6 w-32 md:w-44">
-                        <img src="./cliente-6.png" alt="Cliente 6" class="w-full h-full object-contain"
+                        <img src="./cliente-6.png" alt="Cliente 6 - Empresa aliada de Grupo Dicos" loading="lazy" class="w-full h-full object-contain"
                             onerror="this.outerHTML='<div class=\'flex items-center gap-3 text-dicos-dark\'><i class=\'ph-fill ph-factory text-3xl\'></i><span class=\'font-display font-bold text-xl tracking-tight\'>Industria Y</span></div>'">
                     </div>
                 </div>
@@ -608,15 +651,15 @@
                 <!-- Left: Dynamic Image Display -->
                 <div id="service-image-container"
                     class="reveal stagger-1 relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-xl bg-dicos-dark/5 group">
-                    <img src="./servicio-1.jpg" data-id="./servicio-1.jpg" alt="Servicio 1"
+                    <img src="./servicio-1.jpg" data-id="./servicio-1.jpg" alt="Infraestructura eléctrica residencial, comercial e industrial - Grupo Dicos"
                         class="service-img absolute inset-0 w-full h-full object-cover transition-all duration-[800ms] opacity-100 z-10 group-hover:scale-105">
-                    <img src="./servicio-2.jpg" data-id="./servicio-2.jpg" alt="Servicio 2"
+                    <img src="./servicio-2.jpg" data-id="./servicio-2.jpg" alt="Instalación de sistemas solares fotovoltaicos off-grid y on-grid - Grupo Dicos" loading="lazy"
                         class="service-img absolute inset-0 w-full h-full object-cover transition-all duration-[800ms] opacity-0 z-0 group-hover:scale-105">
-                    <img src="./servicio-3.jpg" data-id="./servicio-3.jpg" alt="Servicio 3"
+                    <img src="./servicio-3.jpg" data-id="./servicio-3.jpg" alt="Mantenimiento preventivo y correctivo de sistemas eléctricos de potencia - Grupo Dicos" loading="lazy"
                         class="service-img absolute inset-0 w-full h-full object-cover transition-all duration-[800ms] opacity-0 z-0 group-hover:scale-105">
-                    <img src="./servicio-4.jpg" data-id="./servicio-4.jpg" alt="Servicio 4"
+                    <img src="./servicio-4.jpg" data-id="./servicio-4.jpg" alt="Poda preventiva y despeje de redes de media y alta tensión - Grupo Dicos" loading="lazy"
                         class="service-img absolute inset-0 w-full h-full object-cover transition-all duration-[800ms] opacity-0 z-0 group-hover:scale-105">
-                    <img src="./servicio-5.jpg" data-id="./servicio-5.jpg" alt="Servicio 5"
+                    <img src="./servicio-5.jpg" data-id="./servicio-5.jpg" alt="Asesoría de ingeniería eléctrica para proyectos a gran escala - Grupo Dicos" loading="lazy"
                         class="service-img absolute inset-0 w-full h-full object-cover transition-all duration-[800ms] opacity-0 z-0 group-hover:scale-105">
                     
                     <!-- Subtle overlay -->
@@ -887,6 +930,8 @@
                     mouse = { x: -1000, y: -1000 };
                 });
 
+                let animating = false;
+
                 const resize = () => {
                     const rect = canvas.parentElement.getBoundingClientRect();
                     width = canvas.width = rect.width;
@@ -1046,11 +1091,25 @@
                         ctx.stroke();
                     }
 
-                    requestAnimationFrame(updateAndDraw);
+                    if (animating) requestAnimationFrame(updateAndDraw);
                 };
+
+                // Pause loop when section is off-screen to save CPU/GPU
+                const visibilityObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && !animating) {
+                            animating = true;
+                            requestAnimationFrame(updateAndDraw);
+                        } else if (!entry.isIntersecting) {
+                            animating = false;
+                        }
+                    });
+                }, { threshold: 0.01 });
+                visibilityObserver.observe(container);
 
                 window.addEventListener('resize', resize);
                 resize();
+                animating = true;
                 updateAndDraw();
             };
 

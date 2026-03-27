@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+
+# Build outputs (if you prefer to build on server, ignore these, 
+# but for Hostinger static sites, you often want them tracked)
+# style.css
+
+# Zip files/Backups
+*.zip
+gdicos_final_fix.zip
+gdicos_website_backup.zip
+
+# OS files
+.DS_Store
+Thumbs.db

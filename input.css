@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+/* Tell Tailwind which file to scan for class names */
+@source "./index.html";
+
+/* Custom theme — mirrors the tailwind.config block that was in the CDN script */
+@theme {
+    --color-dicos-light: #F8F9FA;
+    --color-dicos-dark: #121212;
+    --color-dicos-yellow: #F2A900;
+    --color-dicos-gray: #8a8a8a;
+    --color-dicos-accent: #F2A900;
+
+    --font-sans: Inter, sans-serif;
+    --font-display: "Inter Tight", sans-serif;
+}
