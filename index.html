@@ -446,10 +446,24 @@
                 <!-- Mobile Menu Button -->
                 <div class="md:hidden flex items-center">
                     <button id="nav-mobile-btn" aria-label="Abrir menú" class="text-white hover:text-dicos-yellow transition-colors cursor-pointer">
-                        <i class="ph ph-list text-2xl"></i>
+                        <i id="nav-mobile-icon" class="ph ph-list text-2xl"></i>
                     </button>
                 </div>
             </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="nav-mobile-menu"
+            class="md:hidden hidden flex-col px-6 pb-6 pt-2 gap-4 border-t border-white/10"
+            style="background: rgba(18,18,18,0.95); backdrop-filter: blur(16px);">
+            <a href="#servicios" class="nav-mobile-link text-sm font-medium text-white hover:text-dicos-yellow transition-colors py-2">Servicios</a>
+            <a href="#clientes" class="nav-mobile-link text-sm font-medium text-white hover:text-dicos-yellow transition-colors py-2">Nuestros Clientes</a>
+            <a href="#experiencia" class="nav-mobile-link text-sm font-medium text-white hover:text-dicos-yellow transition-colors py-2">Experiencia</a>
+            <a href="https://wa.me/50764245824" target="_blank" rel="noopener noreferrer"
+                class="btn-dicos text-sm py-2 px-6 border-white/30 text-white mt-2 self-start">
+                Cotizar Proyecto
+                <i class="ph ph-arrow-right btn-icon text-lg"></i>
+            </a>
         </div>
     </nav>
 
@@ -1169,6 +1183,31 @@
             const statsSection = document.getElementById('counter-section');
             if (statsSection) {
                 statsObserver.observe(statsSection);
+            }
+
+            // 3a. Mobile Menu Toggle
+            const mobileMenu = document.getElementById('nav-mobile-menu');
+            const mobileIcon = document.getElementById('nav-mobile-icon');
+            const mobileBtn = document.getElementById('nav-mobile-btn');
+
+            if (mobileBtn && mobileMenu) {
+                mobileBtn.addEventListener('click', () => {
+                    const isOpen = !mobileMenu.classList.contains('hidden');
+                    mobileMenu.classList.toggle('hidden', isOpen);
+                    mobileMenu.classList.toggle('flex', !isOpen);
+                    mobileIcon.className = isOpen ? 'ph ph-list text-2xl' : 'ph ph-x text-2xl';
+                    mobileBtn.setAttribute('aria-label', isOpen ? 'Abrir menú' : 'Cerrar menú');
+                });
+
+                // Close menu when a link is clicked
+                mobileMenu.querySelectorAll('.nav-mobile-link').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenu.classList.remove('flex');
+                        mobileIcon.className = 'ph ph-list text-2xl';
+                        mobileBtn.setAttribute('aria-label', 'Abrir menú');
+                    });
+                });
             }
 
             // 3. Smooth Parallax Effect for Backgrounds & Scroll Progress
